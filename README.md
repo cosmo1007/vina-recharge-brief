@@ -5,7 +5,7 @@ the Vina GSA is building for groundwater recharge projects. Based on the May 8,
 2026 public webinar with GSA General Counsel Valerie Kincaid (facilitated by
 Christina Buck, Butte County DWRC).
 
-**Live site:** _link will go here once GitHub Pages is enabled_
+**Live site:** <https://cosmo1007.github.io/vina-recharge-brief/>
 
 ## What's here
 
