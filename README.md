@@ -43,5 +43,5 @@ python3 scripts/build_transcript.py
 
 ## Author
 
-Tovey Giezentanner &middot; AGUBC representative and Vina GSA advisor &middot;
+Tovey Giezentanner &middot; AGUBC representative &middot;
 [tovey@giezentanner.com](mailto:tovey@giezentanner.com)
