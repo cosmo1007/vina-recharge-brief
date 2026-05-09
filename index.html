@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vina Recharge Rules — Landowner Brief</title>
+<style>
+  :root {
+    --navy: #1a2b4a;
+    --teal: #2d6e8c;
+    --sage: #3a6b4a;
+    --gold: #b08a3a;
+    --gray-line: #d0d0c8;
+    --gray-mute: #8a8a82;
+    --bg: #fafaf6;
+    --card: #ffffff;
+    --ink: #1f2330;
+  }
+
+  @page {
+    size: letter;
+    margin: 0.4in;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .page {
+    width: 100%;
+    max-width: 8in;
+    margin: 0 auto;
+    padding: 0.4in 0.4in;
+    font-size: 10pt;
+    line-height: 1.35;
+  }
+
+  /* Header */
+  .header {
+    border-bottom: 3px solid var(--navy);
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+  }
+  .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 8.5pt;
+    color: var(--teal);
+    font-weight: 600;
+  }
+  h1 {
+    font-size: 22pt;
+    color: var(--navy);
+    margin: 2px 0 4px 0;
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+  }
+  .subhead {
+    font-size: 10.5pt;
+    color: var(--gray-mute);
+  }
+
+  /* Lede */
+  .lede {
+    font-size: 11pt;
+    margin: 0 0 14px 0;
+    color: #2a2f3d;
+  }
+
+  /* Section heading */
+  h2 {
+    font-size: 11.5pt;
+    color: var(--navy);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin: 18px 0 8px 0;
+    padding-bottom: 3px;
+    border-bottom: 1px solid var(--gray-line);
+  }
+  .section-hint {
+    font-size: 8.5pt;
+    color: var(--gray-mute);
+    font-style: italic;
+    text-transform: none;
+    letter-spacing: 0;
+    font-weight: 400;
+    margin-left: 8px;
+  }
+
+  /* Four-path ladder */
+  .ladder {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 6px;
+    margin-bottom: 4px;
+  }
+  .path, .comp {
+    cursor: pointer;
+    transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+    text-align: left;
+    font-family: inherit;
+    width: 100%;
+    appearance: none;
+    border: 1px solid var(--gray-line);
+  }
+  .path:hover, .comp:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(26, 43, 74, 0.08);
+  }
+  .path.active, .comp.active {
+    box-shadow: 0 4px 12px rgba(26, 43, 74, 0.15);
+    border-color: var(--navy);
+  }
+
+  .path {
+    background: var(--card);
+    border-radius: 4px;
+    padding: 9px 10px 10px 10px;
+    position: relative;
+  }
+  .path .num {
+    font-size: 8pt;
+    color: var(--gray-mute);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+  }
+  .path .title {
+    font-weight: 700;
+    color: var(--navy);
+    font-size: 10.5pt;
+    margin: 2px 0 4px 0;
+  }
+  .path .desc {
+    font-size: 9pt;
+    color: #4a4f5d;
+  }
+  .path.out {
+    background: #f0efe9;
+  }
+  .path.out .desc {
+    color: var(--gray-mute);
+  }
+  .path.in {
+    border-left: 4px solid var(--sage);
+    background: #f4f7f2;
+  }
+  .verdict {
+    display: inline-block;
+    font-size: 7.5pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 2px 6px;
+    border-radius: 2px;
+    margin-top: 6px;
+  }
+  .verdict.in { background: var(--sage); color: white; }
+  .verdict.out { background: #d8d6cc; color: #5a5a52; }
+
+  .read-more {
+    position: absolute;
+    top: 8px;
+    right: 9px;
+    font-size: 8pt;
+    color: var(--teal);
+    font-weight: 600;
+    opacity: 0.7;
+  }
+  .path.active .read-more, .comp.active .read-more {
+    opacity: 1;
+  }
+
+  /* 7 components grid */
+  .components {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 5px;
+  }
+  .comp {
+    background: var(--card);
+    border-top: 3px solid var(--teal);
+    border-radius: 3px;
+    padding: 8px 10px 9px 10px;
+    position: relative;
+  }
+  .comp .label {
+    font-weight: 700;
+    color: var(--navy);
+    font-size: 10pt;
+    margin-bottom: 2px;
+  }
+  .comp .body {
+    font-size: 9pt;
+    color: #3d4250;
+    line-height: 1.3;
+  }
+  .comp.wide {
+    grid-column: span 2;
+  }
+
+  /* Quote zone */
+  .quote-zone {
+    margin-top: 8px;
+    margin-bottom: 4px;
+  }
+  .quote {
+    background: white;
+    border: 1px solid var(--gray-line);
+    border-left: 4px solid var(--navy);
+    border-radius: 3px;
+    padding: 12px 16px 12px 18px;
+    position: relative;
+    animation: fadeIn 0.18s ease;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .quote-title {
+    font-size: 9pt;
+    font-weight: 700;
+    color: var(--teal);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 6px;
+  }
+  .quote-text {
+    font-size: 10pt;
+    line-height: 1.45;
+    color: #2a2f3d;
+    font-style: italic;
+  }
+  .quote-text:before {
+    content: '"';
+    font-size: 18pt;
+    color: var(--gray-line);
+    line-height: 0;
+    vertical-align: -6px;
+    margin-right: 2px;
+  }
+  .quote-text:after {
+    content: '"';
+    font-size: 18pt;
+    color: var(--gray-line);
+    line-height: 0;
+    vertical-align: -6px;
+    margin-left: 2px;
+  }
+  .quote-cite {
+    font-size: 8.5pt;
+    color: var(--gray-mute);
+    margin-top: 8px;
+  }
+  .quote-close {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 16pt;
+    line-height: 1;
+    color: var(--gray-mute);
+    cursor: pointer;
+    padding: 2px 6px;
+  }
+  .quote-close:hover { color: var(--navy); }
+
+  /* Watch list */
+  .watch {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+    margin-top: 4px;
+  }
+  .watch-item {
+    background: #fcf9f0;
+    border-left: 4px solid var(--gold);
+    padding: 8px 10px;
+    font-size: 9pt;
+  }
+  .watch-item .key {
+    font-weight: 700;
+    color: var(--navy);
+    display: block;
+    margin-bottom: 2px;
+    font-size: 9.5pt;
+  }
+
+  /* Footer */
+  .foot {
+    margin-top: 18px;
+    padding-top: 8px;
+    border-top: 1px solid var(--gray-line);
+    font-size: 8.5pt;
+    color: var(--gray-mute);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .foot a {
+    color: var(--teal);
+    text-decoration: none;
+    border-bottom: 1px solid var(--gray-line);
+    padding-bottom: 1px;
+  }
+  .foot a:hover { color: var(--navy); border-color: var(--navy); }
+
+  /* Responsive */
+  @media (max-width: 760px) {
+    .ladder, .components, .watch { grid-template-columns: 1fr 1fr; }
+    .comp.wide { grid-column: span 2; }
+    h1 { font-size: 19pt; }
+    .page { padding: 0.3in 0.25in; }
+  }
+  @media (max-width: 460px) {
+    .ladder, .components, .watch { grid-template-columns: 1fr; }
+    .comp.wide { grid-column: span 1; }
+  }
+
+  /* Print: expand all quotes, hide close buttons */
+  @media print {
+    body { background: white; }
+    .page { padding: 0; max-width: none; }
+    .quote { display: block !important; page-break-inside: avoid; }
+    .quote-close { display: none; }
+    .read-more { display: none; }
+    .path, .comp { cursor: default; box-shadow: none !important; transform: none !important; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <div class="eyebrow">AGUBC Landowner Brief · Vina Subbasin</div>
+    <h1>Recharge Rules: What's Coming</h1>
+    <div class="subhead">May 8, 2026 kickoff meeting · The Vina GSA is working to create the legal framework for recharge projects. Here is where it is heading.</div>
+  </div>
+
+  <p class="lede">
+    GSA General Counsel Valerie Kincaid laid out four ways the GSA could regulate recharge. Two are likely for Vina; two are less likely. The real action will be in the seven components below — the terms any future agreement or ordinance will spell out. Click any box to read counsel's words directly.
+  </p>
+
+  <h2>Four Paths · Two Realistic for Vina <span class="section-hint">Click any path to read counsel's comments</span></h2>
+  <div class="ladder">
+    <button class="path out" data-quote="path1" type="button">
+      <span class="read-more">+ read</span>
+      <div class="num">PATH 1</div>
+      <div class="title">GSA runs the project</div>
+      <div class="desc">Vina GSA would apply for water rights and become a water supplier. The Vina JPA was not built for that.</div>
+      <div class="verdict out">Near term: not likely</div>
+    </button>
+    <button class="path in" data-quote="path2" type="button">
+      <span class="read-more">+ read</span>
+      <div class="num">PATH 2</div>
+      <div class="title">Project agreement</div>
+      <div class="desc">GSA negotiates terms with each recharger. Tailored, partnership-oriented, project by project.</div>
+      <div class="verdict in">Likely path</div>
+    </button>
+    <button class="path in" data-quote="path3" type="button">
+      <span class="read-more">+ read</span>
+      <div class="num">PATH 3</div>
+      <div class="title">Recharge ordinance</div>
+      <div class="desc">GSA adopts a basin-wide rule applying to all recharge projects. Top-down and uniform.</div>
+      <div class="verdict in">Likely path</div>
+    </button>
+    <button class="path out" data-quote="path4" type="button">
+      <span class="read-more">+ read</span>
+      <div class="num">PATH 4</div>
+      <div class="title">Full allocation system</div>
+      <div class="desc">GSA defines native yield and tells each user what they can pump. Closest to determining water rights.</div>
+      <div class="verdict out">Near term: not likely</div>
+    </button>
+  </div>
+
+  <div class="quote-zone" id="path-quote-zone">
+    <div class="quote" data-quote-id="path1" hidden>
+      <button class="quote-close" aria-label="Close">×</button>
+      <div class="quote-title">Path 1 · GSA runs the project — Counsel Kincaid</div>
+      <div class="quote-text">The Vina GSA is, of course, a joint powers authority and made up of several public agencies. And it really is not, at least at this point — it could change — but it's really not crafted, created, set up to be a water supplier. It is a GSA, so it's going to be managing for sustainability. But currently, Vina is not set up to have staff, resources, and frankly liability of running recharge projects itself. You would obviously have to start with an application for water rights. You would have to have someone run that system, and you really begin to go down the road of a water supplier. The JPA, as it currently exists, does not consider this [role]. So that could change, and it's not like Vina couldn't do it. You could, but I think you'd really have to rethink Vina GSA's JPA and approach to becoming an agency that's going to own a water right on behalf of its constituent members. And it really isn't crafted quite like that at this point.</div>
+      <div class="quote-cite">— Valerie Kincaid, GSA General Counsel · May 8, 2026 Vina GSA public meeting</div>
+    </div>
+    <div class="quote" data-quote-id="path2" hidden>
+      <button class="quote-close" aria-label="Close">×</button>
+      <div class="quote-title">Path 2 · Project agreement — Counsel Kincaid</div>
+      <div class="quote-text">Let's talk about the specific terms under which we all think this recharge project should go. Of course, that agreement would probably include supply, location, quantity, timing, leave behind, reporting. It would include a number of components that the parties — the recharger party and the GSA party — would agree to. The recharge project would move forward with that agreement. And if the project violated the agreement, then of course the GSA, like any other party to an agreement, has [...] ways to enforce the recharging party to comply with the terms. So that is kind of this — everyone coming together, everyone agreeing on things. Really partnership based. [...] An agreement probably is more tailored towards a recharge project, whereas an ordinance is more of a set of rules that the GSA has developed and all projects would have to comply with those rules. It's less tailored, it's less partnership oriented, but really those are just different mechanisms. The components that would be in an agreement or an ordinance are very similar, most likely.</div>
+      <div class="quote-cite">— Valerie Kincaid, GSA General Counsel · May 8, 2026 Vina GSA public meeting</div>
+    </div>
+    <div class="quote" data-quote-id="path3" hidden>
+      <button class="quote-close" aria-label="Close">×</button>
+      <div class="quote-title">Path 3 · Recharge ordinance — Counsel Kincaid</div>
+      <div class="quote-text">Approach number three is similar, but it's a little bit more top-down. So it basically is that a GSA could adopt an ordinance or other rule that governs recharge projects. You would probably have the same components. You would touch on supply, location, quantity, time, leave behind, reporting, [accounting]. All of those issues that a GSA wants to make sure that recharge projects are following, you could put those into again more top-down, not project-specific, but an ordinance saying hey anyone who does recharge projects in our basin, we think that this ordinance is something that you should follow. And again, as long as the ordinance was lawful and it didn't violate those can'ts in my first slide — it didn't try to regulate surface water, it didn't try to determine water [rights] — it would likely be a lawful ordinance. SGMA definitely gives GSAs the ability to draft ordinances on its subject matter jurisdiction. The enforcement component of that would be if a recharger came in, developed a project that violated the ordinance, then obviously the GSAs have enforcement authority under SGMA to ensure that ordinance is followed and that recharge projects comply with the rules that it set forward.</div>
+      <div class="quote-cite">— Valerie Kincaid, GSA General Counsel · May 8, 2026 Vina GSA public meeting</div>
+    </div>
+    <div class="quote" data-quote-id="path4" hidden>
+      <button class="quote-close" aria-label="Close">×</button>
+      <div class="quote-title">Path 4 · Full allocation system — Counsel Kincaid</div>
+      <div class="quote-text">Probably the most extreme and heavily regulated approach is number four, and this is really developing an allocation system. And again, that goes beyond recharge, frankly. But it does touch on recharge if the GSA develops an entire allocation system. It would need to develop that system for accounting, management, and reporting. It would be run by the GSA. There are several GSAs who have done this. Basically defined what a native yield is, and then allocated [it]. That native yield goes to groundwater users. These GSAs that have allocation systems in place have a really heavy lift. They have to have a huge amount of data to understand these systems. [...] The other challenge for option four — that's a really big hands-on kind of the GSA running the system of water supply. It takes a huge amount of time and resources and data. You have to have a really, really big data management system in order to run an allocation system. And that's because frankly, an allocation looks a lot like determining water rights. When you have an allocation, you're not entirely telling people what they can use. But you are much, much more likely to be challenged when you're telling people what they can use, because obviously embedded in that is what they can't use.</div>
+      <div class="quote-cite">— Valerie Kincaid, GSA General Counsel · May 8, 2026 Vina GSA public meeting</div>
+    </div>
+  </div>
+
+  <h2>Seven Terms Any Agreement or Ordinance Will Address <span class="section-hint">Click any term to read counsel's comments</span></h2>
+  <div class="components">
+    <button class="comp" data-quote="term1" type="button">
+      <span class="read-more">+ read</span>
+      <div class="label">1. Accounting</div>
+      <div class="body">How recharge volumes are measured and who tracks them. Recharger usually proposes the method; GSA signs off.</div>
+    </button>
+    <button class="comp" data-quote="term2" type="button">
+      <span class="read-more">+ read</span>
+      <div class="label">2. Monitoring &amp; Reporting</div>
+      <div class="body">Who reports what to whom, how often, and whether the GSA approves it. Reporting protects everyone.</div>
+    </button>
+    <button class="comp" data-quote="term3" type="button">
+      <span class="read-more">+ read</span>
+      <div class="label">3. Leave-Behind</div>
+      <div class="body">Water that stays in the aquifer after recharge. The <em>purpose</em> of the requirement matters more than the number.</div>
+    </button>
+    <button class="comp" data-quote="term4" type="button">
+      <span class="read-more">+ read</span>
+      <div class="label">4. Timing</div>
+      <div class="body">No statutory cap on storage period. Agreements often step down extraction over time or limit drought-year withdrawals.</div>
+    </button>
+    <button class="comp" data-quote="term5" type="button">
+      <span class="read-more">+ read</span>
+      <div class="label">5. Location</div>
+      <div class="body">Recharge and extraction can be in different spots, but a mismatch can trigger MT or undesirable-result issues.</div>
+    </button>
+    <button class="comp" data-quote="term6" type="button">
+      <span class="read-more">+ read</span>
+      <div class="label">6. GSP Compliance</div>
+      <div class="body">Where the GSA has the strongest hand. If recharge causes MT exceedances, the GSA can act on the groundwater consequences.</div>
+    </button>
+    <button class="comp wide" data-quote="term7" type="button">
+      <span class="read-more">+ read</span>
+      <div class="label">7. Indemnification</div>
+      <div class="body">Recharge in a shared basin is buyer-beware. The GSA will not guarantee that recharged water stays put for the recharger to extract later.</div>
+    </button>
+  </div>
+
+  <div class="quote-zone" id="term-quote-zone">
+    <div class="quote" data-quote-id="term1" hidden>
+      <button class="quote-close" aria-label="Close">×</button>
+      <div class="quote-title">Term 1 · Accounting — Counsel Kincaid</div>
+      <div class="quote-text">First is the accounting component. That's pretty important because recharge is by definition surface water. So I think historically or by default, the accounting system is likely going to be developed by the recharger. You're going to have a recharger who, assuming they're diverting surface water lawfully, has a certain amount of surface water. They're going to measure that. They're going to track where it is and how it infiltrates the aquifer. That could be through actual application to agriculture. It could be through [...] seepage through facilities and systems. [It] could be applied to settling ponds for the specific purpose of recharge. But the accounting is going to have to be agreed upon. You're going to have to say, are you the recharger that is going to account? How are you measuring that water? Where are you applying it? How much of it is seeped in? Who keeps track is a really big issue. Included in this accounting is whether existing storage is defined. And not just defined in quantity, but really defined in ownership. And that becomes a really big issue for people who are doing recharge projects. A lot of times, GSAs talk about this concept of transition water. And that really is allocating existing storage.</div>
+      <div class="quote-cite">— Valerie Kincaid, GSA General Counsel · May 8, 2026 Vina GSA public meeting</div>
+    </div>
+    <div class="quote" data-quote-id="term2" hidden>
+      <button class="quote-close" aria-label="Close">×</button>
+      <div class="quote-title">Term 2 · Monitoring &amp; Reporting — Counsel Kincaid</div>
+      <div class="quote-text">I'll move on to monitoring and reporting. Who reports to who? If a [recharger] had a perfect project where they were taking only the surface water that augmented the basin, and they accounted for it — you had an agreed-upon accounting mechanism, and they only diverted that exact recharged surface water — they really don't have a legal obligation to report or tell the GSA how they're doing that. But of course, the concern is that water does migrate, or that water does leave, or that water didn't augment the basin, or maybe the recharger is over counting, double counting water. Maybe there's a concern with how much in lieu water you're including in your accounting system. So the concept of having a recharger actually report to and talk to the GSA about how that accounting is going is probably a really good idea. However, keep in mind if the project is perfect, you don't really have a responsibility or a legal obligation to report to the GSA. If they're just minding their own business, they're just dealing with surface water and that's all they're taking. However, you can have an ordinance or an agreement where you ensure that accounting is done, so you're preventing any recharger from taking any groundwater. And obviously there can be approval. You would want to say, are you reporting to me? Is it on a monthly basis and yearly basis? Do GSAs want to approve those reports? Do they have the authority to approve the reports? Those are all really difficult questions.</div>
+      <div class="quote-cite">— Valerie Kincaid, GSA General Counsel · May 8, 2026 Vina GSA public meeting</div>
+    </div>
+    <div class="quote" data-quote-id="term3" hidden>
+      <button class="quote-close" aria-label="Close">×</button>
+      <div class="quote-title">Term 3 · Leave-Behind — Counsel Kincaid</div>
+      <div class="quote-text">It's a pretty popular, hot topic that people like to talk about. I think a lot of people talk about it as if it's like a single thing, the leave behind. And really what it is, is usually through an agreement or through a regulation, [...] water that remains in the aquifer even though it is recharged water from a recharge project. When people talk about leave behind, I really think it's important to talk about identifying the purpose. What is the reason that a GSA would require water to be left behind? Again, we talked earlier about the limited jurisdiction a GSA has. The amount to leave behind should really depend on the reason you're requiring [it]. Is that because you need to leave behind to meet a minimum threshold? Is that because you're seeing [a] groundwater quality issue? Is that because you're concerned about overdraft and you think that the recharge is taking too much, and you want kind of an accounting factor? Or is it really that — I don't want to say taxing — but in an agreement certainly, or in an ordinance, you're saying that in order to use the aquifer, just to make sure the accounting is correct, you need to leave behind ten percent or twenty percent, or whatever of what you recharged. I think the GSA has significantly more authority if it's finding that MTs are being hit or there's a recharger who's taking water that maybe migrated or left the sub basin.</div>
+      <div class="quote-cite">— Valerie Kincaid, GSA General Counsel · May 8, 2026 Vina GSA public meeting</div>
+    </div>
+    <div class="quote" data-quote-id="term4" hidden>
+      <button class="quote-close" aria-label="Close">×</button>
+      <div class="quote-title">Term 4 · Timing — Counsel Kincaid</div>
+      <div class="quote-text">This is one of the most interesting things about timing constraints in the law. That is that there really is no specific cap. Again, there's that overarching rule that the water has to remain, augmenting the basin so it can't leave. But there really is no specific timing constraint. [...] You would need to really put into whether it's based on physical movement. If there is data that shows after 10 years, none of the water remains in the sub-basin, then that's probably a good timing constraint because you're tying it to a physical attribute. But a lot of times you do see caps on extractions and caps on a period of storage. I've seen projects where you allow recharge and you can extract 100% of the water you've recharged in year one through three, but that number goes down to 50% in years four to six. Then you can only really take twenty percent in years that are later and following. [...] Do you want to limit extractions in drought years? [...] I have seen some timing constraints where it says, hey, listen, you can really only pull out fifty percent, forty percent of your supply during drought times. I will tell you that I think that, that is beginning to edge kind of on a little bit of a limitation that could be defensible but may not be. Again, it depends on if it's tied to MTs and SGMA compliance. The closer you get to being tied towards SGMA compliance, the more authority [the] GSA has.</div>
+      <div class="quote-cite">— Valerie Kincaid, GSA General Counsel · May 8, 2026 Vina GSA public meeting</div>
+    </div>
+    <div class="quote" data-quote-id="term5" hidden>
+      <button class="quote-close" aria-label="Close">×</button>
+      <div class="quote-title">Term 5 · Location — Counsel Kincaid</div>
+      <div class="quote-text">Interestingly [...] groundwater law considers a sub-basin kind of like a bathtub, whether it is or not. In location, so you can lawfully put water in a basin. You can recharge a certain area. And legally, you can extract that water in a different area. That is what many of the Pasadena and City of L.A. cases were about. Back in the thirties, forties, and fifties, this exact concept was in place. Water was going in at one point, but it did augment the aquifer and [the] city valley was allowed to take it out in a different location. So that is okay. But again, with the advent of SGMA, I would caveat that if you're putting water into an unusable area and it never migrates, and it doesn't augment the basin, and you're taking water out in an overdrafted area where there's better water quality, I think you probably can have some constraints on whether that's going to get you into an issue with MTs, violating undesirable results, and those types of things. So you can probably put buffers on that. But again, location, you should probably discuss location and where location is going to happen. And where the extraction and where the recharge is happening, those could be two very different things.</div>
+      <div class="quote-cite">— Valerie Kincaid, GSA General Counsel · May 8, 2026 Vina GSA public meeting</div>
+    </div>
+    <div class="quote" data-quote-id="term6" hidden>
+      <button class="quote-close" aria-label="Close">×</button>
+      <div class="quote-title">Term 6 · GSP Compliance — Counsel Kincaid</div>
+      <div class="quote-text">GSP compliance — I've touched on that throughout all of these components. But again, because that is an area of the can, [of] what the GSA certainly can do. And it gives the GSA probably most of its regulatory authority. You can say, hey, listen, if you are going to do a [recharge] project, but it ends up hitting [...] a lot of our SMCs [or] hitting minimum thresholds, it's causing [the] basin to fail in achieving sustainability — I think that's really where GSAs come in and probably have the most jurisdiction. You are not determining the water right. You are not saying that the water user does not have the right to the surface water that they recharge. But you certainly can probably limit and say, hey, listen, recharge activities are causing us to have sustainability issues. As long as that tie is there, I do think that there's probably some increased flexibility that a GSA can have. Again, be very careful. Do not tell a surface water right holder what right they have. Do not tell them that you have jurisdiction over that surface water because you don't. But you certainly have jurisdiction over how groundwater moves. And if surface water is moving groundwater in certain ways that violate MTs, that is certainly when the GSA's kind of authority kicks in as well.</div>
+      <div class="quote-cite">— Valerie Kincaid, GSA General Counsel · May 8, 2026 Vina GSA public meeting</div>
+    </div>
+    <div class="quote" data-quote-id="term7" hidden>
+      <button class="quote-close" aria-label="Close">×</button>
+      <div class="quote-title">Term 7 · Indemnification — Counsel Kincaid</div>
+      <div class="quote-text">I think it's probably pretty smart, whether it's in an ordinance or an agreement, for a GSA to remind every recharger that does a project in its sub-basin that any agreement or any ordinance or any compliance with an ordinance does not mean the GSA is guaranteeing that the stored surface water is safe or will be there for extraction at a later date. Obviously, GSAs also have limited authority over other groundwater users or other recharge projects. So none of these agreements, ordinances, or regulatory actions by a GSA should ever really be guarantees that recharge is safe in that basin. These are always kind of a buyer beware situation. I understand, as a recharger, I would want to [...] eliminate the risk, and I would [want to] know exactly how my project is going to work. But the GSA obviously cannot be responsible for other people in the sub-basin that are not involved with the GSA from unlawfully diverting recharged water. That's not something a GSA should probably try to control or guarantee. [...] I think it is important for the GSA to say, listen, if we're entering into an agreement or if we're following an ordinance, it doesn't mean we're keeping your recharge water safe. It has the same risk it would always have in a sub-basin where people may try to take that water. To the extent that a recharger needs to protect its investment in recharge, it's going to have to do that on its own and probably not [rely on] the GSA.</div>
+      <div class="quote-cite">— Valerie Kincaid, GSA General Counsel · May 8, 2026 Vina GSA public meeting</div>
+    </div>
+  </div>
+
+  <h2>What Vina Landowners Should Watch</h2>
+  <div class="watch">
+    <div class="watch-item">
+      <span class="key">Specific projects go first</span>
+      Counsel will apply the framework to Lindo Channel, the South Line Extension, the Ridge to Valley project, and direct recharge using Section 1242.1 flows or existing water rights.
+    </div>
+    <div class="watch-item">
+      <span class="key">Three terms with real economics</span>
+      Leave-behind, indemnification, and timing constraints will drive the dollars on any recharge project in the Subbasin. Read those carefully when drafts emerge.
+    </div>
+    <div class="watch-item">
+      <span class="key">GSP review shapes the rules</span>
+      The Vina GSP periodic review is moving topic by topic. Subsidence is in front of the GSA now; Interconnected Surface Water is next; Groundwater Levels follow. Board action is targeted May–July on these topics.
+    </div>
+  </div>
+
+  <div class="foot">
+    <span>Source: Vina GSA Webinar, May 8, 2026 · <a href="transcript.html">Read full transcript</a></span>
+    <span></span>
+  </div>
+
+</div>
+
+<script>
+(function() {
+  function setup(buttonSelector, zoneId) {
+    const buttons = document.querySelectorAll(buttonSelector);
+    const zone = document.getElementById(zoneId);
+    const quotes = zone.querySelectorAll('.quote');
+
+    function close() {
+      buttons.forEach(b => b.classList.remove('active'));
+      quotes.forEach(q => { q.hidden = true; });
+    }
+
+    function open(id) {
+      buttons.forEach(b => {
+        b.classList.toggle('active', b.dataset.quote === id);
+      });
+      quotes.forEach(q => {
+        q.hidden = q.dataset.quoteId !== id;
+      });
+    }
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.quote;
+        if (btn.classList.contains('active')) {
+          close();
+        } else {
+          open(id);
+        }
+      });
+    });
+
+    quotes.forEach(q => {
+      const closeBtn = q.querySelector('.quote-close');
+      if (closeBtn) closeBtn.addEventListener('click', close);
+    });
+  }
+
+  setup('.path', 'path-quote-zone');
+  setup('.comp', 'term-quote-zone');
+})();
+</script>
+</body>
+</html>
