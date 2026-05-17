@@ -1,6 +1,6 @@
-# Vina Recharge Rules — Landowner Brief
+# Vina Recharge Rules — AGUBC Landowner Brief
 
-A one-page interactive brief for Vina Subbasin landowners on the legal framework
+AGUBC Work Product. A one-page interactive brief for Vina Subbasin landowners on the legal framework
 the Vina GSA is building for groundwater recharge projects. Based on the May 8,
 2026 public webinar with GSA General Counsel Valerie Kincaid (facilitated by
 Christina Buck, Butte County DWRC).
